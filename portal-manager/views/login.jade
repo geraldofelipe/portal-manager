@@ -1,0 +1,12 @@
+extends layouts/manager-login
+
+block content
+  h1(align="center")= __('Access Control')
+  .container(ng-controller="LoginController")
+      form(class="form-signin", role="form", ng-submit='login()', method="post")
+          input(type="text", class="form-control", name="username", ng-model="user.username", placeholder=__("Username") required autofocus)
+          input(type="password", class="form-control" name="password", ng-model="user.password", placeholder=__("Password"))
+          label(class="checkbox")=__("Remember me")
+            input(type="checkbox", id="rememberMe", name="rememberMe", value="true", ng-model="user.rememberMe")
+          input(type="submit", class="btn btn-lg btn-primary btn-block", value=__('Sign In'))
+  script(src='/javascripts/app/controllers/LoginController.js', type='text/javascript')

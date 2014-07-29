@@ -1,0 +1,135 @@
+body {
+	background: #fff;
+	padding-top: 60px;
+	padding-bottom: 40px;
+}
+
+div.logo {
+	background: url("../images/logo-126x50.png") no-repeat #fff;
+	width: 126px;
+	height: 50px;
+	border: 0;
+}
+
+.form-signin {
+	max-width: 330px;
+	padding: 15px;
+	margin: 0 auto;
+}
+
+.form-signin .form-signin-heading,.form-signin .checkbox {
+	margin-bottom: 10px;
+}
+
+.form-signin .checkbox {
+	font-weight: normal;
+}
+
+.form-signin .form-control {
+	position: relative;
+	font-size: 16px;
+	height: auto;
+	padding: 10px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.form-signin .form-control:focus {
+	z-index: 2;
+}
+
+.form-signin input[type="text"] {
+	margin-bottom: -1px;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+input.middle {
+	border-radius: 0;
+}
+
+.form-signin input[type="password"] {
+	margin-bottom: 10px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+
+input.search {
+	border-bottom-right-radius: 0;
+	border-top-right-radius: 0;
+}
+
+button.search {
+	border-bottom-left-radius: 0;
+	border-top-left-radius: 0;
+}
+
+.modal {
+	display: block;
+}
+
+/* Custom dialog/modal headers */
+.dialog-header-error {
+	background-color: #d2322d;
+}
+
+.dialog-header-wait {
+	background-color: #428bca;
+}
+
+.dialog-header-notify {
+	background-color: #eeeeee;
+}
+
+.dialog-header-confirm {
+	background-color: #333333;
+}
+
+.dialog-header-error span,.dialog-header-error h4,.dialog-header-wait span,.dialog-header-wait h4,.dialog-header-confirm span,.dialog-header-confirm h4
+	{
+	color: #ffffff;
+}
+
+fieldset {
+    margin: 20px;
+}
+
+fieldset .form-group {
+    margin: 10px;
+}
+
+fieldset .form-group input {
+    margin: 10px;
+}
+
+fieldset .form-group select {
+    margin: 5px;
+}
+
+.click {
+	cursor: pointer;
+}
+
+.nav, .pagination, .carousel, .panel-title a { 
+    cursor: pointer; 
+}
+
+.pagination { 
+    margin: 0px; 
+}
+
+.message-block {
+    margin-bottom: 10px;
+}
+
+#loading-bar .bar {
+  background: #2c3e50;
+}
+#loading-bar .peg {
+  box-shadow: 0 0 10px #2c3e50, 0 0 5px #2c3e50;
+}
+#loading-bar-spinner .spinner-icon {
+  border-top-color:  #2c3e50;
+  border-left-color: #2c3e50;
+}

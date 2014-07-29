@@ -1,0 +1,58 @@
+extends layouts/manager
+
+block content
+  div(class="container", ng-controller="MainController")
+    div(ng-repeat='content in contents | orderBy:predicate:reverse')
+      ii
+       {{content.section.name}}
+      br
+      {{content.category.name}}
+      br
+      h2
+       {{content.title}}
+      h3
+       {{content.subtitle}}
+      br
+      div(ng-bind-html="content.fullText")
+    div(class="panel panel-default")
+      div(class="panel-heading")=__('Contents')
+      div(class="panel-body")
+         table(class="table table-striped table-bordered table-hover")
+            thead
+             tr
+              th(width="20%")=__('Section')
+              th(width="20%")=__('Category')
+              th(width="25%")=__('Title')
+              th(width="35%")=__('Description')
+            tr(ng-repeat='content in contents | orderBy:predicate:reverse')
+              td {{content.section.name}}
+              td {{content.category.name}}
+              td {{content.title}}
+              td {{content.subtitle}}
+    div(class="panel panel-default")
+      div(class="panel-heading")=__('Sections')
+      div(class="panel-body")
+         table(class="table table-striped table-bordered table-hover")
+            thead
+             tr
+              th(width="10%")=__('Code')
+              th(width="30%")=__('Name')
+              th(width="60%")=__('Description')
+            tr(ng-repeat='section in sections')
+              td {{section.code}}
+              td {{section.name}}
+              td {{section.description}}
+    div(class="panel panel-default")
+      div(class="panel-heading")=__('Categories')
+      div(class="panel-body")
+         table(class="table table-striped table-bordered table-hover")
+            thead
+             tr
+              th(width="10%")=__('Code')
+              th(width="30%")=__('Name')
+              th(width="60%")=__('Description')
+            tr(ng-repeat='category in categories')
+              td {{category.code}}
+              td {{category.name}}
+              td {{category.description}}
+  script(src='/javascripts/app/controllers/MainController.js', type='text/javascript')
