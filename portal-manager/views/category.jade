@@ -2,32 +2,6 @@ extends layouts/manager
 
 block content
   div(class="container", ng-controller="CategoryController")
-    div(class="panel panel-default")
-      div(class="panel-heading")=__('Category')
-      div(class="panel-body")
-          form(class="form-category", role="form", ng-submit='save()')
-              input(type="text", class="form-control", name="code", id="categoryCode", placeholder=__('Code'), ng-model="item.code" uppercase required autofocus)
-              input(type="text", class="form-control", name="name", id="categoryName", placeholder=__('Name'), ng-model="item.name" capitalize required)
-              textarea(class="form-control", name="description", id="categoryDescription", placeholder=__('Description'), ng-model="item.description" capitalize-first required)
-              include includes/actions
-    div(class="panel panel-default")
-      div(class="panel-heading")=__('Category List')
-      div(class="panel-body")
-          table(class="table table-striped table-bordered table-hover")
-            thead
-             tr
-              th(style="width: 10%")=__('Code')
-              th(style="width: 30%")=__('Name')
-              th(style="width: 40%")=__('Description')
-              th=__('Actions')
-            tbody
-             tr(ng-repeat='category in items | orderBy:predicate:reverse' ng-click="find(category._id)"  class="click")
-              td(ng-click="doAction(false)") {{category.code}}
-              td(ng-click="doAction(false)") {{category.name}}
-              td(ng-click="doAction(false)") {{category.description}}
-              td(align="center" ng-click="doAction(true)")
-                button(class="btn btn-default btn-xs confirmation", ng-click="remove(category._id)")
-                    i(class="fa fa-trash-o fa-fw")
-          include includes/pagination
-                
+    include categories/main
+    include categories/items
   script(src='/javascripts/app/controllers/CategoryController.js', type='text/javascript')

@@ -1,0 +1,8 @@
+div(class="panel panel-default")
+  div(class="panel-heading")=__('User')
+  div(class="panel-body")
+      form(class="form-user", name="userForm", role="form", ng-submit='save()')
+          include ../includes/actions
+          input(type="email", class="form-control", name="email", id="userEmail", placeholder=__('Email'), ng-model="item.email", ng-readonly="item._id" required)
+          input(type="text", class="form-control", name="name", id="userName" placeholder=__('Name'), ng-model="item.name" capitalize-first required)
+          include password-inputs

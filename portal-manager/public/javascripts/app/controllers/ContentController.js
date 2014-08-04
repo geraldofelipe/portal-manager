@@ -1,6 +1,6 @@
 var app = angular.module('app',
-        [ 'app.directives', 'app.services', 'ui.bootstrap', 'dialogs', 'messages', 'authenticator', 'angular-loading-bar', 'ngAnimate', 'textAngular' ]);
-app.controller('ContentController', function($scope, $http, $rootScope, $timeout, $dialogs, $messages, $authenticator, ModelManager) {
+        [ 'app.directives', 'app.services', 'messages', 'angular-loading-bar', 'ngAnimate', 'textAngular' ]);
+app.controller('ContentController', function($scope, $http, $rootScope, $timeout, $messages, PortalManager) {
 
     $scope.sections = [];
     $scope.categories = [];
@@ -17,7 +17,7 @@ app.controller('ContentController', function($scope, $http, $rootScope, $timeout
         });
     };
 
-    var manager = new ModelManager({
+    var manager = new PortalManager({
         name : 'content',
         listUrl : '/contents',
         pageUrl : '/page-contents',

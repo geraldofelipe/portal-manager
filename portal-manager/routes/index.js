@@ -41,13 +41,17 @@ exports.doLogin = function(req, res, next) {
                     username : post.username,
                     password : post.password
                 });
-            } else{
+            } else {
                 res.clearCookie('remember');
             }
             req.session['user-id'] = user._id;
             var url = req.session['redirect-to'] || '/';
             delete req.session['redirect-to'];
             return res.json({
+                email : user.email,
+                name : user.name,
+                managerType : user.managerType,
+                status : user.status,
                 redirectTo : url
             });
         });

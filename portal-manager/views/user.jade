@@ -2,55 +2,6 @@ extends layouts/manager
 
 block content
   div(class="container", ng-controller="UserController")
-    div(class="panel panel-default")
-      div(class="panel-heading")=__('User')
-      div(class="panel-body")
-          form(class="form-user", name="userForm", role="form", ng-submit='save()')
-              input(type="email", class="form-control", name="email", id="userEmail", placeholder=__('Email'), ng-model="item.email", ng-readonly="item._id" required)
-              input(type="text", class="form-control", name="name", id="userName" placeholder=__('Name'), ng-model="item.name" capitalize-first required)
-              include password-inputs
-              include includes/actions
-    div(class="panel panel-default")
-      div(class="panel-heading")=__('User List')
-      div(class="panel-body")
-          table(class="table table-striped table-bordered table-hover")
-            thead
-             tr
-              th(style="width: 30%")=__('Email')
-              th(style="width: 40%")=__('Name')
-              th(style="width: 10%")=__('Type')
-              th=__('Actions')
-            tbody
-             tr(ng-repeat='user in items | orderBy:predicate:reverse' ng-click="find(user._id)" class="click")
-              td(ng-click="doAction(false)") {{user.email}}
-              td(ng-click="doAction(false)") {{user.name}}
-              td(ng-click="doAction(false)") {{user.managerType}}
-              td(ng-click="doAction(true)")
-                div(class="btn-group")
-                    a(class="btn btn-primary btn-xs" ng-click="find(user._id)") 
-                        i(class="fa fa-user fa-fw") 
-                        =__('User')
-                    a(class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" href="#")
-                        span(class="fa fa-caret-down")
-                    ul(class="dropdown-menu")
-                        li
-                            a(ng-click="find(user._id)")
-                                i(class="fa fa-pencil fa-fw")
-                                =__('Edit')
-                        li
-                            a(ng-click="remove(user._id)")
-                                i(class="fa fa-trash-o fa-fw")
-                                =__('Delete')
-                        li
-                            a(href="#")
-                                i(class="fa fa-ban fa-fw")
-                                =__('Ban')
-                        li(class="divider")
-                        li
-                            a(href="#")
-                                i(class="i")
-                                =__('Make admin')
-                    
-          include includes/pagination
-      
+    include users/main
+    include users/items
   script(src='/javascripts/app/controllers/UserController.js', type='text/javascript')

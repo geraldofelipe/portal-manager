@@ -1,0 +1,8 @@
+div(class="panel panel-default")
+  div(class="panel-heading")=__('Section')
+  div(class="panel-body")
+      form(class="form-section", role="form", ng-submit='save()')
+          include ../includes/actions
+          input(type="text", class="form-control", name="code", id="sectionCode", placeholder=__('Code'), ng-model="item.code" uppercase required autofocus)
+          input(type="text", class="form-control", name="name", id="sectionName", placeholder=__('Name'), ng-model="item.name" capitalize required)
+          textarea(class="form-control", name="description", id="sectionDescription", placeholder=__('Description'), ng-model="item.description" capitalize-first required)

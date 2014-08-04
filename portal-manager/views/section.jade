@@ -2,32 +2,6 @@ extends layouts/manager
 
 block content
   div(class="container", ng-controller="SectionController")
-    div(class="panel panel-default")
-      div(class="panel-heading")=__('Section')
-      div(class="panel-body")
-          form(class="form-section", role="form", ng-submit='save()')
-              input(type="text", class="form-control", name="code", id="sectionCode", placeholder=__('Code'), ng-model="item.code" uppercase required autofocus)
-              input(type="text", class="form-control", name="name", id="sectionName", placeholder=__('Name'), ng-model="item.name" capitalize required)
-              textarea(class="form-control", name="description", id="sectionDescription", placeholder=__('Description'), ng-model="item.description" capitalize-first required)
-              include includes/actions
-    div(class="panel panel-default")
-      div(class="panel-heading")=__('Section List')
-      div(class="panel-body")
-          table(class="table table-striped table-bordered table-hover")
-            thead
-             tr
-              th(style="width: 30%")=__('Code')
-              th(style="width: 30%")=__('Name')
-              th(style="width: 30%")=__('Description')
-              th=__('Actions')
-            tbody
-             tr(ng-repeat='section in items | orderBy:predicate:reverse' ng-click="find(section._id)"  class="click")
-              td(ng-click="doAction(false)") {{section.code}}
-              td(ng-click="doAction(false)") {{section.name}}
-              td(ng-click="doAction(false)") {{section.description}}
-              td(align="center" ng-click="doAction(true)")
-                button(class="btn btn-default btn-xs confirmation", ng-click="remove(section._id)")
-                    i(class="fa fa-trash-o fa-fw")
-          include includes/pagination
-                
+    include sections/main
+    include sections/items
   script(src='/javascripts/app/controllers/SectionController.js', type='text/javascript')

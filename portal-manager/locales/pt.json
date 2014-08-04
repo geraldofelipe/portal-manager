@@ -53,6 +53,11 @@
 	"User": "Usuário",
 	"Edit": "Editar",
 	"Delete": "Excluir",
-	"Ban": "Banir",
-	"Make admin": "Tornar administrador"
+	"Deactivate": "Desativar",
+	"Activate": "Ativar",
+	"Make admin": "Tornar administrador",
+	"Status": "Status",
+	"Make normal": "Tornar usuário comum",
+	"Empty": "Vazio",
+	"Save & New": "Salvar & Novo"
 }

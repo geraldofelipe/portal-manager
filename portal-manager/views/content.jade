@@ -2,47 +2,6 @@ extends layouts/manager
 
 block content
   div(class="container", ng-controller="ContentController")
-    div(class="panel panel-default")
-      div(class="panel-heading")=__('Content')
-      div(class="panel-body")
-          form(class="form-content", role="form", ng-submit='save()')
-              label(for="contentSection")=__('Section')
-              select(class="form-control", name="section", id="contentSection", ng-model="item.section" required autofocus)
-                option(value="")=__('Select a section')
-                option(ng-repeat='section in sections' value="{{section._id}}") {{section.name}}
-              label(for="contentCategory")=__('Category')
-              select(class="form-control", name="type", id="contentCategory", ng-model="item.category" required)
-                option(value="")=__('Select a category')
-                option(ng-repeat='category in categories' value="{{category._id}}") {{category.name}}
-              label(for="contentTitle")=__('Title')
-              input(type="text", class="form-control", name="title", id="contentTitle", placeholder=__('Title'), ng-model="item.title" capitalize-first required)
-              label(for="contentSubtitle")=__('Subtitle')
-              input(type="text", class="form-control", name="subtitle", id="contentSubtitle", placeholder=__('Subtitle'), ng-model="item.subtitle" capitalize-first required)
-              label(for="contentInitialText")=__('Initial Text')
-              input(type="text", class="form-control", name="initialText", id="contentInitialText", placeholder=__('Initial Text'), ng-model="item.initialText" capitalize-first required)
-              label(for="contentFullText")=__('Full Text')
-              text-angular(id="contentFullText", placeholder=__('Full Text'), ng-model="item.fullText")
-              include includes/actions
-    div(class="panel panel-default")
-      div(class="panel-heading")=__('Content List')
-      div(class="panel-body")
-          table(class="table table-striped table-bordered table-hover")
-            thead
-             tr
-              th(style="width: 20%")=__('Section')
-              th(style="width: 20%")=__('Category')
-              th(style="width: 30%")=__('Title')
-              th(style="width: 30%")=__('Subtitle')
-              th=__('Actions')
-            tbody
-             tr(ng-repeat='content in items | orderBy:predicate:reverse' ng-click="find(content._id)" class="click")
-              td(ng-click="doAction(false)") {{content.section.name}}
-              td(ng-click="doAction(false)") {{content.category.name}}
-              td(ng-click="doAction(false)") {{content.title}}
-              td(ng-click="doAction(false)") {{content.subtitle}}
-              td(align="center" ng-click="doAction(true)")
-                button(class="btn btn-default btn-xs confirmation", ng-click="remove(content._id)")
-                    i(class="fa fa-trash-o fa-fw")
-          include includes/pagination
-      
+    include contents/main
+    include contents/items
   script(src='/javascripts/app/controllers/ContentController.js', type='text/javascript')

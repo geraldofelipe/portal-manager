@@ -1,8 +1,8 @@
 var app = angular.module('app',
-        [ 'app.services', 'app.directives', 'ui.bootstrap', 'dialogs', 'messages', 'authenticator', 'angular-loading-bar', 'ngAnimate' ]);
-app.controller('SectionController', function($scope, $http, $rootScope, $timeout, $dialogs, $controller, $messages, $authenticator, ModelManager) {
+        [ 'app.services', 'app.directives', 'messages', 'angular-loading-bar', 'ngAnimate' ]);
+app.controller('SectionController', function($scope, $http, $rootScope, $timeout, $controller, $messages, PortalManager) {
 
-    var manager = new ModelManager({
+    var manager = new PortalManager({
         name : 'section',
         listUrl : '/sections',
         pageUrl : '/page-sections',

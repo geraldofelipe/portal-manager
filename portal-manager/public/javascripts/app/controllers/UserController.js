@@ -1,8 +1,7 @@
-var app = angular.module('app',
-        [ 'app.directives', 'app.services', 'ui.bootstrap', 'dialogs', 'messages', 'authenticator', 'angular-loading-bar', 'ngAnimate' ]);
-app.controller('UserController', function($scope, $http, $rootScope, $timeout, $dialogs, $controller, $messages, $authenticator, ModelManager) {
+var app = angular.module('app', [ 'app.directives', 'app.services', 'messages', 'angular-loading-bar', 'ngAnimate' ]);
+app.controller('UserController', function($scope, $http, $rootScope, $timeout, $messages, $controller, PortalManager) {
 
-    var manager = new ModelManager({
+    var manager = new PortalManager({
         name : 'user',
         listUrl : '/users',
         pageUrl : '/page-users',
@@ -34,6 +33,40 @@ app.controller('UserController', function($scope, $http, $rootScope, $timeout, $
             }).addClass("hotkey");
         }
     });
+
+    $scope.status = function(id, status) {
+        $rootScope.create();
+        $messages.cleanAllMessages();
+        $http.post('/user-status', {
+            id : id,
+            status : status
+        }).success(function() {
+            $messages.addSuccessMessage('Status alterado com com sucesso!');
+            setTimeout(function() {
+                $rootScope.list();
+                $rootScope.focus();
+            }, 100);
+        }).error(function(data, status, header, config) {
+            $messages.addErrorMessage('Ocorreu um erro na execução.');
+        });
+    };
+
+    $scope.managerType = function(id, managerType) {
+        $rootScope.create();
+        $messages.cleanAllMessages();
+        $http.post('/user-type/', {
+            id : id,
+            managerType : managerType
+        }).success(function() {
+            $messages.addSuccessMessage('Tipo alterado com com sucesso!');
+            setTimeout(function() {
+                $rootScope.list();
+                $rootScope.focus();
+            }, 100);
+        }).error(function(data, status, header, config) {
+            $messages.addErrorMessage('Ocorreu um erro na execução.');
+        });
+    };
 
     $(document).ready(function() {
         manager.init();

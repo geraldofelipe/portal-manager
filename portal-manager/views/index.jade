@@ -3,15 +3,12 @@ extends layouts/manager
 block content
   div(class="container", ng-controller="MainController")
     div(ng-repeat='content in contents | orderBy:predicate:reverse')
-      ii
-       {{content.section.name}}
+      ii {{content.section.name}}
       br
-      {{content.category.name}}
+      span {{content.category.name}}
       br
-      h2
-       {{content.title}}
-      h3
-       {{content.subtitle}}
+      h2 {{content.title}}
+      h3 {{content.subtitle}}
       br
       div(ng-bind-html="content.fullText")
     div(class="panel panel-default")

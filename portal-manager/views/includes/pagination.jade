@@ -1,4 +1,4 @@
-ul(class="pagination")
+ul(class="pagination", ng-show="items.length > 0 && pageSize > 1")
     li(ng-class="{disabled: currentPage == 0}")
         a(href ng-click="prevPage()") «
     li(ng-repeat="n in range(pageSize)" ng-class="{active: n == currentPage}" ng-click="setPage()")

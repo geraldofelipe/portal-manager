@@ -1,0 +1,46 @@
+div(class="panel panel-default")
+  div(class="panel-heading")=__('User List')
+  div(class="panel-body")
+      table(class="table table-striped table-bordered table-hover")
+        thead
+         tr
+          th(style="width: 75%")=__('Name')
+          th(style="width: 25%")=__('Actions')
+        tbody
+         include ../includes/select-empty
+         tr(ng-repeat='selectItem in items | orderBy:predicate:reverse' ng-click="show(selectItem._id)" class="click")
+          td(ng-click="doAction(false)") {{selectItem.name}}
+           table(style="display:none; width: 100%" id="{{selectItem._id}}")
+            tr
+             th(style="width: 60%")=__('Email')
+             th(style="width: 20%")=__('Type')
+             th(style="width: 20%")=__('Status')
+            tr
+             td(ng-click="doAction(false)") {{selectItem.email}}
+             td(ng-click="doAction(false)") {{selectItem.managerType}}
+             td(ng-click="doAction(false)") {{selectItem.status}}
+          td(ng-click="doAction(true)")
+            div(class="btn-group")
+                a(class="btn btn-primary btn-xs" ng-click="doAction(false);find(selectItem._id)") 
+                    i(class="fa fa-user fa-fw") 
+                    =__('User')
+                include ../includes/actions-item
+                    li(ng-show="userDetails.managerType === 'ADMIN' && selectItem.email !== userDetails.email && selectItem.status === 'ACTIVE'")
+                        a(ng-click="status(selectItem._id, 'INACTIVE')")
+                            i(class="fa fa-ban fa-fw")
+                            =__('Deactivate')
+                    li(ng-show="userDetails.managerType === 'ADMIN' && selectItem.email !== userDetails.email && selectItem.status === 'INACTIVE'")
+                        a(ng-click="status(selectItem._id, 'ACTIVE')")
+                            i(class="fa fa-check-circle-o fa-fw")
+                            =__('Activate')
+                    li(class="divider", ng-show="selectItem.email !== userDetails.email && userDetails.managerType === 'ADMIN' && selectItem.status === 'ACTIVE'")
+                    li(ng-show="selectItem.email !== userDetails.email && userDetails.managerType === 'ADMIN' && selectItem.status === 'ACTIVE' && selectItem.managerType !== 'ADMIN'")
+                        a(ng-click="managerType(selectItem._id, 'ADMIN')")
+                            i(class="fa fa-slack fa-fw")
+                            =__('Make admin')
+                    li(ng-show="selectItem.email !== userDetails.email && userDetails.managerType === 'ADMIN' && selectItem.status === 'ACTIVE' && selectItem.managerType === 'ADMIN'")
+                        a(ng-click="managerType(selectItem._id, 'NORMAL')")
+                            i(class="fa fa-user fa-fw")
+                            =__('Make normal')
+                
+      include ../includes/pagination

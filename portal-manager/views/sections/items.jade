@@ -1,0 +1,23 @@
+div(class="panel panel-default")
+  div(class="panel-heading")=__('Section List')
+  div(class="panel-body")
+      table(class="table table-striped table-bordered table-hover")
+        thead
+         tr
+          th(style="width: 20%")=__('Code')
+          th(style="width: 20%")=__('Name')
+          th(style="width: 40%")=__('Description')
+          th=__('Actions')
+        tbody
+         include ../includes/select-empty
+         tr(ng-repeat='selectItem in items | orderBy:predicate:reverse' ng-click="find(selectItem._id)"  class="click")
+          td(ng-click="doAction(false)") {{selectItem.code}}
+          td(ng-click="doAction(false)") {{selectItem.name}}
+          td(ng-click="doAction(false)") {{selectItem.description}}
+          td(align="center" ng-click="doAction(true)")
+            div(class="btn-group")
+                a(class="btn btn-primary btn-xs" ng-click="doAction(false);find(selectItem._id)") 
+                    i(class="fa fa-columns fa-fw") 
+                    =__('Section')
+                include ../includes/actions-item
+      include ../includes/pagination
