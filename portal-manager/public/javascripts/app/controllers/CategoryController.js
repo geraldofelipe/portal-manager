@@ -1,8 +1,8 @@
 var app = angular.module('app',
-        [ 'app.directives', 'app.services', 'ui.bootstrap', 'dialogs', 'messages', 'authenticator', 'angular-loading-bar', 'ngAnimate' ]);
-app.controller('CategoryController', function($scope, $http, $rootScope, $timeout, $dialogs, $controller, $messages, $authenticator, ModelManager) {
+        [ 'app.directives', 'app.services', 'messages', 'authenticator', 'angular-loading-bar', 'ngAnimate' ]);
+app.controller('CategoryController', function($scope, $http, $rootScope, $timeout, $controller, $messages, PortalManager) {
 
-    var manager = new ModelManager({
+    var manager = new PortalManager({
         name : 'category',
         listUrl : '/categories',
         pageUrl : '/page-categories',

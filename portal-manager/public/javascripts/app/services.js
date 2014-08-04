@@ -45,18 +45,27 @@ angular.module('messages', []).factory('$messages', function($rootScope) {
 });
 
 angular.module('authenticator', [ 'localStorage' ]).factory('$authenticator', function($rootScope, $store) {
+    $rootScope.userDetails = {
+        email : '',
+        name : '',
+        managerType : '',
+        status : ''
+    };
     return {
         userIsAuthenticated : false,
-        userDetails : {
-            email : '',
-            name : ''
+        userDetails : function() {
+            $rootScope.userDetails = JSON.parse($store.get('userDetails'));
+            return $rootScope.userDetails;
         },
         loginSuccessfully : function(user) {
             this.userIsAuthenticated = true;
-            $store.set('userDetails', JSON.stringify({
+            $rootScope.userDetails = {
                 email : user.email,
-                name : user.name
-            }));
+                name : user.name,
+                managerType : user.managerType,
+                status : user.status
+            };
+            $store.set('userDetails', JSON.stringify($rootScope.userDetails));
             $store.bind($rootScope, 'userIsAuthenticated', this.userIsAuthenticated);
         },
         logoutSuccessfully : function() {
@@ -197,25 +206,24 @@ angular
                     return publicMethods;
                 });
 
-var app = angular.module('app.services', []);
+var app = angular.module('app.services', ['ui.bootstrap', 'dialogs', 'messages', 'authenticator']);
 
-app.factory('ModelManager', function($rootScope, $http, $messages, $dialogs) {
+app.factory('PortalManager', function($rootScope, $http, $authenticator, $messages, $dialogs) {
 
     $rootScope.name = '';
     $rootScope.listUrl = '';
     $rootScope.pageUrl = '';
     $rootScope.predicate = '';
     $rootScope.item = {};
-    $rootScope.newItem = function() {
+    var nothing = function() {
     };
-    $rootScope.focus = function() {
-    };
-    $rootScope.hotkeys = function() {
-    };
+    $rootScope.newItem = nothing;
+    $rootScope.focus = nothing;
+    $rootScope.hotkeys = nothing;
     $rootScope.items = [];
     $rootScope.action = false;
 
-    var ModelManager = function(options) {
+    var service = function(options) {
         $rootScope.name = options.name;
         if (options.pageUrl) {
             $rootScope.pageUrl = options.pageUrl;
@@ -280,12 +288,6 @@ app.factory('ModelManager', function($rootScope, $http, $messages, $dialogs) {
         $rootScope.action = action;
     };
 
-    ModelManager.prototype.init = function() {
-        $rootScope.list();
-        $rootScope.hotkeys();
-        $rootScope.focus();
-    };
-
     $rootScope.create = function() {
         $rootScope.item = $rootScope.newItem();
         $rootScope.focus();
@@ -348,6 +350,13 @@ app.factory('ModelManager', function($rootScope, $http, $messages, $dialogs) {
             $messages.addErrorMessage('Ocorreu um erro na execução.');
         });
     };
+    
+    service.prototype.init = function() {
+        $rootScope.list();
+        $rootScope.hotkeys();
+        $rootScope.focus();
+        $authenticator.userDetails();
+    };
 
-    return ModelManager;
+    return service;
 });

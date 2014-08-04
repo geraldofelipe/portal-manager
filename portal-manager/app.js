@@ -135,6 +135,8 @@ app.get('/user', checkAuth, user.index);
 app.get('/user/:id', checkAuth, user.find);
 app.del('/user/:id', checkAuth, user.remove);
 app.post('/user', checkAuth, user.save);
+app.post('/user-type', checkAuth, user.managerType);
+app.post('/user-status', checkAuth, user.status);
 app.get('/users', checkAuth, user.list);
 app.get('/page-users', checkAuth, user.page);
 app.get('/user-logged', checkAuth, user.logged);

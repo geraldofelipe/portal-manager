@@ -1,7 +1,7 @@
-var app = angular.module('app', [ 'app.directives', 'app.services', 'ui.bootstrap', 'dialogs', 'messages', 'authenticator', 'angular-loading-bar', 'ngAnimate' ]);
-app.controller('UserPasswordController', function($scope, $http, $rootScope, $timeout, $dialogs, $controller, $messages, $authenticator, ModelManager) {
+var app = angular.module('app', [ 'app.directives', 'app.services', 'messages', 'angular-loading-bar', 'ngAnimate' ]);
+app.controller('UserPasswordController', function($scope, $http, $rootScope, $timeout, $controller, $messages, PortalManager) {
 
-    var manager = new ModelManager({
+    var manager = new PortalManager({
         name : 'user-password',
         focus : function() {
             $("#userPassword").focus();
@@ -22,6 +22,7 @@ app.controller('UserPasswordController', function($scope, $http, $rootScope, $ti
         manager.init();
         $http.get('/user-logged').success(function(data) {
             $rootScope.item = data.item;
+            $rootScope.userDetails = {};
             setTimeout(function() {
                 $rootScope.focus();
             }, 100);

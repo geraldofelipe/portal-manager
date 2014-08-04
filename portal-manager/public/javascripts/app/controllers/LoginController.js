@@ -1,6 +1,5 @@
-var app = angular.module('app', [ 'ui.bootstrap', 'dialogs', 'messages', 'authenticator', 'ngCookies', 'angular-loading-bar', 'ngAnimate' ]);
-
-app.controller('LoginController', function($scope, $http, $rootScope, $timeout, $dialogs, $messages, $authenticator, $window, $cookies, $cookieStore) {
+var app = angular.module('app', ['messages', 'authenticator', 'ngCookies', 'angular-loading-bar', 'ngAnimate' ]);
+app.controller('LoginController', function($scope, $http, $rootScope, $timeout, $messages, $authenticator, $window, $cookies, $cookieStore) {
 
     $scope.user = {
         username : '',
@@ -21,7 +20,7 @@ app.controller('LoginController', function($scope, $http, $rootScope, $timeout, 
         $messages.cleanAllMessages();
         $http.post('/login', $scope.user).success(function(data) {
             $messages.addSuccessMessage('Login realizado com sucesso!');
-            $authenticator.loginSuccessfully($scope.user);
+            $authenticator.loginSuccessfully(data);
             $window.location = data.redirectTo;
         }).error(function(data, status, header, config) {
             if (status === 403) {
