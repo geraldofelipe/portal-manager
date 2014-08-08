@@ -36,6 +36,23 @@ exports.save = function(req, res) {
     res.send(201);
 };
 
+exports.status = function(req, res) {
+    var Content = mongoose.model('Content');
+    var item = req.body;
+    Content.findByIdAndUpdate(item.id, {
+        $set : {
+            status : item.status
+        }
+    }, function(error, item) {
+        if (error) {
+            console.log(error);
+            res.send(500);
+        }
+        console.dir(item);
+    });
+    res.send(201);
+};
+
 exports.remove = function(req, res) {
     var Content = mongoose.model('Content');
     Content.remove({
@@ -64,8 +81,15 @@ exports.list = function(req, res) {
 
 exports.page = function(req, res) {
     var page = req.param('page') || 1;
+    var status = req.param('status') || '';
+    var filter = {};
+    if (status && status.length > 0) {
+        filter = {
+            status : status
+        }
+    }
     var Content = mongoose.model('Content');
-    Content.paginate({}, page, 5, function(error, pageCount, items, itemCount) {
+    Content.paginate(filter, page, 5, function(error, pageCount, items, itemCount) {
         if (error) {
             console.error(error);
         } else {

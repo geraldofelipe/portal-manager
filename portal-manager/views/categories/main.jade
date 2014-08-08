@@ -1,8 +1,9 @@
-div(class="panel panel-default")
+form(class="form-{{name}}", name="mainForm", role="form", ng-submit='save(mainForm)', submitted="submitted", novalidate shake-that )
+ div(class="panel panel-default main-panel")
   div(class="panel-heading")=__('Category')
-  div(class="panel-body")
-      form(class="form-category", role="form", ng-submit='save()')
-          include ../includes/actions
-          input(type="text", class="form-control", name="code", id="categoryCode", placeholder=__('Code'), ng-model="item.code" uppercase required autofocus)
-          input(type="text", class="form-control", name="name", id="categoryName", placeholder=__('Name'), ng-model="item.name" capitalize required)
-          textarea(class="form-control", name="description", id="categoryDescription", placeholder=__('Description'), ng-model="item.description" capitalize-first required)
+   include ../includes/main-actions
+  div(class="panel-body", id="main-{{name}}", style="display:none")
+      include ../includes/actions
+      input(type="text", class="form-control", name="code", id="categoryCode", placeholder=__('Code'), ng-model="item.code" uppercase required autofocus)
+      input(type="text", class="form-control", name="name", id="categoryName", placeholder=__('Name'), ng-model="item.name" capitalize required)
+      textarea(class="form-control", name="description", id="categoryDescription", placeholder=__('Description'), ng-model="item.description" capitalize-first required)

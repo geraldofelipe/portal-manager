@@ -1,21 +1,22 @@
-div(class="panel panel-default")
+form(class="form-{{name}}", name="mainForm", role="form", ng-submit='save(mainForm)', submitted="submitted", novalidate shake-that )
+ div(class="panel panel-default main-panel")
   div(class="panel-heading")=__('Content')
-  div(class="panel-body")
-      form(class="form-content", role="form", ng-submit='save()')
-          include ../includes/actions
-          label(for="contentSection")=__('Section')
-          select(class="form-control", name="section", id="contentSection", ng-model="item.section" required autofocus)
-            option(value="")=__('Select a section')
-            option(ng-repeat='section in sections' value="{{section._id}}") {{section.name}}
-          label(for="contentCategory")=__('Category')
-          select(class="form-control", name="type", id="contentCategory", ng-model="item.category" required)
-            option(value="")=__('Select a category')
-            option(ng-repeat='category in categories' value="{{category._id}}") {{category.name}}
-          label(for="contentTitle")=__('Title')
-          input(type="text", class="form-control", name="title", id="contentTitle", placeholder=__('Title'), ng-model="item.title" capitalize-first required)
-          label(for="contentSubtitle")=__('Subtitle')
-          input(type="text", class="form-control", name="subtitle", id="contentSubtitle", placeholder=__('Subtitle'), ng-model="item.subtitle" capitalize-first required)
-          label(for="contentInitialText")=__('Initial Text')
-          input(type="text", class="form-control", name="initialText", id="contentInitialText", placeholder=__('Initial Text'), ng-model="item.initialText" capitalize-first required)
-          label(for="contentFullText")=__('Full Text')
-          text-angular(id="contentFullText", placeholder=__('Full Text'), ng-model="item.fullText")
+   include ../includes/main-actions
+  div(class="panel-body", id="main-{{name}}", style="display:none")
+      include ../includes/actions
+      label(for="contentSection")=__('Section')
+      select(class="form-control", name="section", id="contentSection", ng-model="item.section" required autofocus)
+        option(value="")=__('Select a section')
+        option(ng-repeat='section in sections' value="{{section._id}}") {{section.name}}
+      label(for="contentCategory")=__('Category')
+      select(class="form-control", name="type", id="contentCategory", ng-model="item.category" required)
+        option(value="")=__('Select a category')
+        option(ng-repeat='category in categories' value="{{category._id}}") {{category.name}}
+      label(for="contentTitle")=__('Title')
+      input(type="text", class="form-control", name="title", id="contentTitle", placeholder=__('Title'), ng-model="item.title" capitalize-first required)
+      label(for="contentSubtitle")=__('Subtitle')
+      input(type="text", class="form-control", name="subtitle", id="contentSubtitle", placeholder=__('Subtitle'), ng-model="item.subtitle" capitalize-first required)
+      label(for="contentInitialText")=__('Initial Text')
+      input(type="text", class="form-control", name="initialText", id="contentInitialText", placeholder=__('Initial Text'), ng-model="item.initialText" capitalize-first required)
+      label(for="contentFullText")=__('Full Text')
+      text-angular(id="contentFullText", placeholder=__('Full Text'), ng-model="item.fullText")

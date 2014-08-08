@@ -1,6 +1,7 @@
-div(class="panel panel-default")
+div(class="panel panel-default items-panel box-shadow")
   div(class="panel-heading")=__('User List')
-  div(class="panel-body")
+   include ../includes/items-actions
+  div(class="panel-body", id="items-{{name}}")
       table(class="table table-striped table-bordered table-hover")
         thead
          tr
@@ -8,7 +9,7 @@ div(class="panel panel-default")
           th(style="width: 25%")=__('Actions')
         tbody
          include ../includes/select-empty
-         tr(ng-repeat='selectItem in items | orderBy:predicate:reverse' ng-click="show(selectItem._id)" class="click")
+         tr(ng-repeat='selectItem in items | orderBy:predicate:reverse' ng-click="detail(selectItem._id)" class="click")
           td(ng-click="doAction(false)") {{selectItem.name}}
            table(style="display:none; width: 100%" id="{{selectItem._id}}")
             tr
@@ -21,9 +22,6 @@ div(class="panel panel-default")
              td(ng-click="doAction(false)") {{selectItem.status}}
           td(ng-click="doAction(true)")
             div(class="btn-group")
-                a(class="btn btn-primary btn-xs" ng-click="doAction(false);find(selectItem._id)") 
-                    i(class="fa fa-user fa-fw") 
-                    =__('User')
                 include ../includes/actions-item
                     li(ng-show="userDetails.managerType === 'ADMIN' && selectItem.email !== userDetails.email && selectItem.status === 'ACTIVE'")
                         a(ng-click="status(selectItem._id, 'INACTIVE')")

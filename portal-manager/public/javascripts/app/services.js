@@ -35,22 +35,15 @@ angular.module('messages', []).factory('$messages', function($rootScope) {
         },
         broadcastMessage : function() {
             $rootScope.$broadcast('messageBroadcast');
-            $("#messages").show();
         },
         broadcastCleanMessages : function() {
-            $("#messages").hide();
             $rootScope.$broadcast('cleanMessagesBroadcast');
         }
     };
 });
 
 angular.module('authenticator', [ 'localStorage' ]).factory('$authenticator', function($rootScope, $store) {
-    $rootScope.userDetails = {
-        email : '',
-        name : '',
-        managerType : '',
-        status : ''
-    };
+    $rootScope.userDetails = {};
     return {
         userIsAuthenticated : false,
         userDetails : function() {
@@ -59,12 +52,7 @@ angular.module('authenticator', [ 'localStorage' ]).factory('$authenticator', fu
         },
         loginSuccessfully : function(user) {
             this.userIsAuthenticated = true;
-            $rootScope.userDetails = {
-                email : user.email,
-                name : user.name,
-                managerType : user.managerType,
-                status : user.status
-            };
+            $rootScope.userDetails = user;
             $store.set('userDetails', JSON.stringify($rootScope.userDetails));
             $store.bind($rootScope, 'userIsAuthenticated', this.userIsAuthenticated);
         },
@@ -206,9 +194,9 @@ angular
                     return publicMethods;
                 });
 
-var app = angular.module('app.services', ['ui.bootstrap', 'dialogs', 'messages', 'authenticator']);
+var app = angular.module('app.services', [ 'ui.bootstrap', 'dialogs', 'messages', 'authenticator' ]);
 
-app.factory('PortalManager', function($rootScope, $http, $authenticator, $messages, $dialogs) {
+app.factory('PortalManager', function($rootScope, $http, $authenticator, $messages, $dialogs, $timeout) {
 
     $rootScope.name = '';
     $rootScope.listUrl = '';
@@ -222,6 +210,7 @@ app.factory('PortalManager', function($rootScope, $http, $authenticator, $messag
     $rootScope.hotkeys = nothing;
     $rootScope.items = [];
     $rootScope.action = false;
+    $rootScope.saveType = '';
 
     var service = function(options) {
         $rootScope.name = options.name;
@@ -289,21 +278,67 @@ app.factory('PortalManager', function($rootScope, $http, $authenticator, $messag
     };
 
     $rootScope.create = function() {
+        $rootScope.show(true);
         $rootScope.item = $rootScope.newItem();
         $rootScope.focus();
     };
 
-    $rootScope.show = function(id) {
+    $rootScope.cancel = function() {
+        $rootScope.item = $rootScope.newItem();
+        $rootScope.show();
+    };
+
+    $rootScope.show = function(mustbe) {
         if (!$rootScope.action) {
-            var $element = $('#' + id);
-            if ($element.is(':visible')) {
-                $element.fadeOut('slow');
+            $messages.cleanAllMessages();
+            var $mainPanel = $('div.main-panel');
+            var $itemsPanel = $('div.items-panel');
+            var $mainElement = $('#main-' + $rootScope.name);
+            var $itemsElement = $('#items-' + $rootScope.name);
+            var $mainToggle = $('#main-' + $rootScope.name + '-toggle');
+            var $itemsToggle = $('#items-' + $rootScope.name + '-toggle');
+            var visible = $mainElement.is(':visible');
+            if (mustbe) {
+                $mainElement.fadeIn('slow');
+                $itemsElement.fadeOut('slow');
+                $mainPanel.addClass('box-shadow');
+                $itemsPanel.removeClass('box-shadow');
+                if ($mainToggle.length == 1) {
+                    $mainToggle.removeClass('fa-eye');
+                    $mainToggle.addClass('fa-eye-slash');
+                }
             } else {
-                $element.fadeIn('slow');
+                $mainPanel.removeClass('box-shadow');
+                $itemsPanel.removeClass('box-shadow');
+                if (visible) {
+                    $mainElement.fadeOut('slow');
+                    $itemsElement.fadeIn('slow');
+                    $itemsPanel.addClass('box-shadow');
+                } else {
+                    $mainElement.fadeIn('slow');
+                    $itemsElement.fadeOut('slow');
+                    $mainPanel.addClass('box-shadow');
+                }
+                $mainToggle.removeClass('fa-eye fa-eye-slash');
+                if ($mainToggle.length == 1) {
+                    $mainToggle.removeClass('fa-eye fa-eye-slash');
+                    $mainToggle.addClass(visible ? 'fa-eye' : 'fa-eye-slash');
+                }
+                if ($itemsToggle.length == 1) {
+                    $itemsToggle.removeClass('fa-eye fa-eye-slash');
+                    $itemsToggle.addClass(visible ? 'fa-eye-slash' : 'fa-eye');
+                }
             }
         }
     };
-    
+
+    $rootScope.detail = function(id) {
+        if (!$rootScope.action) {
+            var $element = $('#' + id);
+            $element.is(':visible') ? $element.fadeOut('slow') : $element.fadeIn('slow');
+        }
+    };
+
     $rootScope.list = function(page) {
         if (!page) {
             page = 1;
@@ -318,6 +353,8 @@ app.factory('PortalManager', function($rootScope, $http, $authenticator, $messag
         if (!$rootScope.action) {
             $http.get('/' + $rootScope.name + '/' + id).success(function(data) {
                 $rootScope.item = data.item;
+                $rootScope.action = false;
+                $rootScope.show(true);
                 setTimeout(function() {
                     $rootScope.focus();
                 }, 100);
@@ -345,23 +382,35 @@ app.factory('PortalManager', function($rootScope, $http, $authenticator, $messag
         });
     };
 
-    $rootScope.save = function() {
-        $messages.cleanAllMessages();
-        var update = ($rootScope.item._id) || false;
-        $http.post('/' + $rootScope.name, $rootScope.item).success(function() {
-            if (!update) {
-                $rootScope.create();
+    $rootScope.save = function(form, type) {
+        if (form.$valid) {
+            if (type) {
+                $rootScope.saveType = type;
+            } else {
+                $messages.cleanAllMessages();
+                var update = ($rootScope.item._id) || false;
+                $http.post('/' + $rootScope.name, $rootScope.item).success(function() {
+                    if ($rootScope.saveType.length > 0) {
+                        if ($rootScope.saveType === 'NEW') {
+                            $rootScope.create();
+                        } else if ($rootScope.saveType === 'CLOSE') {
+                            $rootScope.create();
+                            $rootScope.show();
+                        }
+                        $rootScope.saveType = '';
+                    }
+                    $messages.addSuccessMessage('Operação realizada com sucesso!');
+                    setTimeout(function() {
+                        $rootScope.list();
+                        $rootScope.focus();
+                    }, 100);
+                }).error(function(data, status, header, config) {
+                    $messages.addErrorMessage('Ocorreu um erro na execução.');
+                });
             }
-            $messages.addSuccessMessage('Operação realizada com sucesso!');
-            setTimeout(function() {
-                $rootScope.list();
-                $rootScope.focus();
-            }, 100);
-        }).error(function(data, status, header, config) {
-            $messages.addErrorMessage('Ocorreu um erro na execução.');
-        });
+        }
     };
-    
+
     service.prototype.init = function() {
         $rootScope.list();
         $rootScope.hotkeys();

@@ -1,4 +1,7 @@
 div(class="btn-group pull-right")
+    a(href="", class="btn btn-default" ng-click="cancel()")
+     //i(class="fa fa-plus fa-fw")
+     =__('Cancel')
     a(href="", class="btn btn-default" ng-click="create()")
      //i(class="fa fa-plus fa-fw")
      =__('New')
@@ -9,8 +12,11 @@ div(class="btn-group pull-right")
         span(class="fa fa-caret-down")
     ul(class="dropdown-menu")
         li
-            a(ng-click="find(user._id)")
+            button(type="submit", class="btn btn-link", ng-click="save(mainForm, 'NEW')")
                 i(class="fa fa-plus fa-fw")
                 =__('Save & New')
-             
+        li
+            button(type="submit", class="btn btn-link", ng-click="save(mainForm, 'CLOSE')")
+                i(class="fa fa-save fa-fw")
+                =__('Save & Close')
 br

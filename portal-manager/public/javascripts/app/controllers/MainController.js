@@ -13,7 +13,7 @@ app.controller('MainController', function($scope, $http, $rootScope, $timeout, $
         $scope.categories = data.items;
     });
 
-    $http.get('/page-contents').success(function(data) {
+    $http.get('/page-contents?status=PUBLISHED').success(function(data) {
         $scope.contents = data.items;
     });
 
