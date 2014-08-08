@@ -1,25 +1,39 @@
 div(class="panel panel-default")
   div(class="panel-heading")=__('Content List')
-  div(class="panel-body")
+   include ../includes/items-actions
+  div(class="panel-body", id="items-{{name}}")
       table(class="table table-striped table-bordered table-hover")
         thead
          tr
-          th(style="width: 15%")=__('Section')
-          th(style="width: 15%")=__('Category')
-          th(style="width: 30%")=__('Title')
-          th(style="width: 25%")=__('Subtitle')
+          th(style="width: 55%")=__('Title')
+          th(style="width: 10%")=__('Status')
           th=__('Actions')
         tbody
          include ../includes/select-empty
-         tr(ng-repeat='selectItem in items | orderBy:predicate:reverse' ng-click="find(selectItem._id)" class="click")
-          td(ng-click="doAction(false)") {{selectItem.section.name}}
-          td(ng-click="doAction(false)") {{selectItem.category.name}}
+         tr(ng-repeat='selectItem in items | orderBy:predicate:reverse' ng-click="detail(selectItem._id)" class="click")
           td(ng-click="doAction(false)") {{selectItem.title}}
-          td(ng-click="doAction(false)") {{selectItem.subtitle}}
-          td(align="center" ng-click="doAction(true)")
+           table(style="display:none; width: 100%" id="{{selectItem._id}}")
+            tr
+             th(style="width: 20%")=__('Section')
+             th(style="width: 20%")=__('Category')
+             th(style="width: 60%")=__('Subtitle')
+            tr
+             td(ng-click="doAction(false)") {{selectItem.section.name}}
+             td(ng-click="doAction(false)") {{selectItem.category.name}}
+             td(ng-click="doAction(false)") {{selectItem.subtitle}}
+          td(align="center", ng-click="doAction(false)") 
+           i(class="fa fa-check", ng-show="{{selectItem.status == 'PUBLISHED'}}", title=__('Published'))
+           i(class="fa fa-ban", ng-show="{{selectItem.status == 'UNPUBLISHED'}}", title=__('Unpublished'))
+           i(class="fa fa-edit", ng-show="{{selectItem.status == 'PENDING'}}", title=__('Pending'))
+          td(ng-click="doAction(true)")
             div(class="btn-group")
-                a(class="btn btn-primary btn-xs" ng-click="doAction(false);find(selectItem._id)") 
-                    i(class="fa fa-quote-left fa-fw") 
-                    =__('Content')
                 include ../includes/actions-item
+                    li(ng-show="userDetails.managerType === 'ADMIN' && (selectItem.status !== 'PUBLISHED')")
+                        a(ng-click="status(selectItem._id, 'PUBLISHED')")
+                            i(class="fa fa-check-square-o fa-fw")
+                            =__('Publish')
+                    li(ng-show="userDetails.managerType === 'ADMIN' && selectItem.status === 'PUBLISHED'")
+                        a(ng-click="status(selectItem._id, 'UNPUBLISHED')")
+                            i(class="fa fa-ban fa-fw")
+                            =__('Unpublish')
       include ../includes/pagination

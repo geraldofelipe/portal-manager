@@ -79,6 +79,28 @@ db.once('open', function() {
 
 	User.plugin(mongoosePaginate);
 
+	// HISTORY
+    var History = new Schema({
+        type : {
+            type : String,
+            required : true
+        },
+        content : {
+            type : String,
+            required : true
+        },
+        modified : {
+            type : Date,
+            'default' : Date.now
+        },
+        user : {
+            type : Schema.Types.ObjectId,
+            ref : 'User'
+        }
+    });
+
+    History.plugin(mongoosePaginate);
+    
 	// SECTION
 	var Section = new Schema({
 		code : {

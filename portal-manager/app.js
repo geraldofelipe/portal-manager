@@ -128,6 +128,7 @@ app.get('/content', checkAuth, content.index);
 app.get('/content/:id', checkAuth, content.find);
 app.del('/content/:id', checkAuth, content.remove);
 app.post('/content', checkAuth, content.save);
+app.post('/content-status', checkAuth, content.status);
 app.get('/contents', checkAuth, content.list);
 app.get('/page-contents', checkAuth, content.page);
 // USER

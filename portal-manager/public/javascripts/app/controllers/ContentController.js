@@ -45,6 +45,23 @@ app.controller('ContentController', function($scope, $http, $rootScope, $timeout
             }).addClass("hotkey");
         }
     });
+    
+    $scope.status = function(id, status) {
+        $rootScope.create();
+        $messages.cleanAllMessages();
+        $http.post('/content-status', {
+            id : id,
+            status : status
+        }).success(function() {
+            $messages.addSuccessMessage('Status alterado com com sucesso!');
+            setTimeout(function() {
+                $rootScope.list();
+                $rootScope.focus();
+            }, 100);
+        }).error(function(data, status, header, config) {
+            $messages.addErrorMessage('Ocorreu um erro na execução.');
+        });
+    };
 
     $(document).ready(function() {
         manager.init();

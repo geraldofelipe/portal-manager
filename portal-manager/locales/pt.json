@@ -59,5 +59,11 @@
 	"Status": "Status",
 	"Make normal": "Tornar usuário comum",
 	"Empty": "Vazio",
-	"Save & New": "Salvar & Novo"
+	"Save & New": "Salvar & Novo",
+	"Save & Close": "Salvar & Fechar",
+	"Publish": "Publicar",
+	"Unpublish": "Despublicar",
+	"Published": "Publicado",
+	"Unpublished": "Despublicado",
+	"Pending": "Pendente"
 }

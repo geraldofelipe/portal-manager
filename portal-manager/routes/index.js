@@ -48,6 +48,7 @@ exports.doLogin = function(req, res, next) {
             var url = req.session['redirect-to'] || '/';
             delete req.session['redirect-to'];
             return res.json({
+                id : user._id,
                 email : user.email,
                 name : user.name,
                 managerType : user.managerType,
