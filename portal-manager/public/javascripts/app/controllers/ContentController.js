@@ -1,16 +1,15 @@
-var app = angular.module('app',
-        [ 'app.directives', 'app.services', 'messages', 'angular-loading-bar', 'ngAnimate', 'textAngular' ]);
+var app = angular.module('app', [ 'app.directives', 'app.services', 'messages', 'angular-loading-bar', 'ngAnimate', 'textAngular' ]);
 app.controller('ContentController', function($scope, $http, $rootScope, $timeout, $messages, PortalManager) {
 
     $scope.sections = [];
     $scope.categories = [];
-    
+
     var listSections = function() {
         $http.get('/sections').success(function(data) {
             $scope.sections = data.items;
         });
     };
-    
+
     var listCategories = function() {
         $http.get('/categories').success(function(data) {
             $scope.categories = data.items;
@@ -45,7 +44,7 @@ app.controller('ContentController', function($scope, $http, $rootScope, $timeout
             }).addClass("hotkey");
         }
     });
-    
+
     $scope.status = function(id, status) {
         $rootScope.create();
         $messages.cleanAllMessages();
@@ -67,6 +66,7 @@ app.controller('ContentController', function($scope, $http, $rootScope, $timeout
         manager.init();
         listCategories();
         listSections();
+        $rootScope.form = $scope.mainForm;
         $("#main").removeClass("active");
     });
 });

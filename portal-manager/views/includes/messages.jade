@@ -1,5 +1,5 @@
-div(id="messages", style="display:none", ng-controller="MessagesController")
-    alert(ng-repeat="message in messages" type="{{message.type}}" close="close($index)")
+div(id="messages", ng-controller="MessagesController")
+    alert(ng-repeat="message in messages" type="{{message.type}}" close="close($index)" class="slide-down")
         strong(ng-show="{{message.type == 'success'}}")
             span(class="glyphicon glyphicon-ok-sign") &nbsp;
             span=__('Success!')

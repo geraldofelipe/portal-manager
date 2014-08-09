@@ -1,5 +1,5 @@
 div(class="btn-group pull-right")
- a(class="btn btn-default btn-xs" ng-click="create(true)")
+ a(class="btn btn-default btn-xs" ng-click="showing = !$root.showing; create()" ng-hide="$root.showing")
   i(class="fa fa-plus fa-fw")
- a(class="btn btn-default btn-xs" ng-click="show()")
-  i(id="items-{{name}}-toggle", class="fa fa-eye fa-fw")
+ a(class="btn btn-default btn-xs" ng-click="showing = !$root.showing")
+  i(id="items-{{name}}-toggle", class="fa fa-eye fa-fw", ng-class="{'fa-eye-slash':!$root.showing}")

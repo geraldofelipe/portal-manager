@@ -6,9 +6,7 @@ angular.module([ 'messages' ]).controller('MessagesController', function($scope,
     $scope.messages = [];
 
     $scope.close = function(index) {
-        $($("#messages>div").get(index)).fadeOut('slow', function() {
-            $scope.messages.splice(index, 1);
-        });
+        $scope.messages.splice(index, 1);
     };
 
     $scope.$on('messageBroadcast', function() {
@@ -17,13 +15,11 @@ angular.module([ 'messages' ]).controller('MessagesController', function($scope,
             msg : $messages.message
         });
         $(document).scrollTop(0);
-        $("#messages").fadeIn('slow');
         $timeout(function() {
             $scope.close($scope.messages.length - 1);
         }, 3000);
     });
     $scope.$on('cleanMessagesBroadcast', function() {
-        $("#messages").fadeOut('slow');
         $scope.messages = [];
     });
 });

@@ -1,5 +1,4 @@
-var app = angular.module('app',
-        [ 'app.services', 'app.directives', 'messages', 'angular-loading-bar', 'ngAnimate' ]);
+var app = angular.module('app', [ 'app.services', 'app.directives', 'messages', 'angular-loading-bar', 'ngAnimate' ]);
 app.controller('SectionController', function($scope, $http, $rootScope, $timeout, $controller, $messages, PortalManager) {
 
     var manager = new PortalManager({
@@ -31,6 +30,7 @@ app.controller('SectionController', function($scope, $http, $rootScope, $timeout
 
     $(document).ready(function() {
         manager.init();
+        $rootScope.form = $scope.mainForm;
         $("#main").removeClass("active");
     });
 });

@@ -70,6 +70,7 @@ app.controller('UserController', function($scope, $http, $rootScope, $timeout, $
 
     $(document).ready(function() {
         manager.init();
+        $rootScope.form = $scope.mainForm;
         $("#main").removeClass("active");
     });
 

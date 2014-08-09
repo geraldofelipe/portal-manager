@@ -27,6 +27,7 @@ app.controller('UserPasswordController', function($scope, $http, $rootScope, $ti
                 $rootScope.focus();
             }, 100);
         });
+        $rootScope.form = $scope.mainForm;
         $("#main").removeClass("active");
     });
 
