@@ -1,0 +1,28 @@
+div(ng-hide="history.length === 0")
+   div(class="panel panel-default")
+    div(class="panel-heading")=__('History')
+     div(class="btn-group pull-right")
+      a(class="btn btn-default btn-xs" ng-click="showHistory = !showHistory")
+       i(class="fa fa-eye fa-fw", ng-class="{'fa-eye-slash':showHistory}")
+    div(class="panel-body slide-down", ng-show="showHistory")
+     div(class="btn-group pull-right")
+      a(class="btn btn-default btn-xs", ng-click="historyCopy(); copySubmitted = true")
+       i(class="fa fa-copy fa-fw")
+     span(class="label label-danger" ng-show="mainForm.historySelected.$error.historyNotSelected && copySubmitted")=__('Select history version to restore')
+     table(class="table table-striped table-bordered table-hover")
+      thead
+       tr
+        th(width="10%")=__('Select')
+        th(width="15%")=__('Code')
+        th(width="30%")=__('Name')
+        th(width="35%")=__('Description')
+        th(width="10%")=__('Version')
+      tbody
+       tr(ng-repeat="history in historyItems" ng-click="$root.historyVersion = history", class="click")
+        td
+         input(type="radio", name="historySelected", ng-model="$root.historyVersion", ng-value="history")
+        td {{history.code}}
+        td {{history.name}}
+        td {{history.description}}
+        td {{history.version}}
+     include ../includes/history-pagination

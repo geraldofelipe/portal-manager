@@ -1,0 +1,8 @@
+div(ng-hide="history.length === 0")
+   div(class="panel panel-default")
+    div(class="panel-heading")=__('History')
+     div(class="btn-group pull-right")
+      a(class="btn btn-default btn-xs" ng-click="showHistory = !showHistory")
+       i(class="fa fa-eye fa-fw", ng-class="{'fa-eye-slash':showHistory}")
+    div(class="panel-body slide-down", ng-show="showHistory")
+     table(class="table table-striped table-bordered table-hover")

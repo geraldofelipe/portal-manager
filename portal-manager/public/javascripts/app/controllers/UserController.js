@@ -35,14 +35,13 @@ app.controller('UserController', function($scope, $http, $rootScope, $timeout, $
     });
 
     $scope.status = function(id, status) {
-        $rootScope.create();
         $messages.cleanAllMessages();
         $http.post('/user-status', {
             id : id,
             status : status
         }).success(function() {
             $messages.addSuccessMessage('Status alterado com com sucesso!');
-            setTimeout(function() {
+            $timeout(function() {
                 $rootScope.list();
                 $rootScope.focus();
             }, 100);
@@ -52,14 +51,13 @@ app.controller('UserController', function($scope, $http, $rootScope, $timeout, $
     };
 
     $scope.managerType = function(id, managerType) {
-        $rootScope.create();
         $messages.cleanAllMessages();
         $http.post('/user-type/', {
             id : id,
             managerType : managerType
         }).success(function() {
             $messages.addSuccessMessage('Tipo alterado com com sucesso!');
-            setTimeout(function() {
+            $timeout(function() {
                 $rootScope.list();
                 $rootScope.focus();
             }, 100);

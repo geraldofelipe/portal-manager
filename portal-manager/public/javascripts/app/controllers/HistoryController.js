@@ -1,11 +1,11 @@
 var app = angular.module('app', [ 'app.directives', 'app.services', 'messages', 'authenticator', 'angular-loading-bar', 'ngAnimate' ]);
-app.controller('CategoryController', function($scope, $http, $rootScope, $timeout, $controller, $messages, PortalManager) {
+app.controller('HistoryController', function($scope, $http, $rootScope, $timeout, $controller, $messages, PortalManager) {
 
     var manager = new PortalManager({
-        name : 'category',
-        listUrl : '/categories',
-        pageUrl : '/page-categories',
-        predicate : 'name',
+        name : 'History',
+        listUrl : '/histories',
+        pageUrl : '/page-histories',
+        predicate : 'type',
         newItem : function() {
             return {
                 code : '',
@@ -14,7 +14,7 @@ app.controller('CategoryController', function($scope, $http, $rootScope, $timeou
             };
         },
         focus : function() {
-            $("#categoryCode").focus();
+            $("#HistoryCode").focus();
         },
         hotkeys : function() {
             $("input:not(.hotkey)").bind("keydown.insert", function(evt) {

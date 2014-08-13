@@ -204,7 +204,10 @@ app.factory('PortalManager', function($rootScope, $http, $authenticator, $messag
     $rootScope.listUrl = '';
     $rootScope.pageUrl = '';
     $rootScope.predicate = '';
+    $rootScope.reverse = true;
     $rootScope.item = {};
+    $rootScope.history = [];
+    $rootScope.historyItems = [];
     var nothing = function() {
     };
     $rootScope.newItem = nothing;
@@ -212,6 +215,7 @@ app.factory('PortalManager', function($rootScope, $http, $authenticator, $messag
     $rootScope.hotkeys = nothing;
     $rootScope.items = [];
     $rootScope.saveType = '';
+    $rootScope.historyVersion = null;
 
     var service = function(options) {
         $rootScope.name = options.name;
@@ -238,27 +242,52 @@ app.factory('PortalManager', function($rootScope, $http, $authenticator, $messag
     // PAGINATION CONFIG
     $rootScope.currentPage = 0;
     $rootScope.pageSize = 1;
+    $rootScope.historyCurrentPage = 0;
+    $rootScope.historyPageSize = 1;
 
-    $rootScope.prevPage = function() {
+    $rootScope.prevPage = function(history) {
         $messages.cleanAllMessages();
-        if ($rootScope.currentPage > 0) {
-            $rootScope.currentPage--;
-            $rootScope.list($rootScope.currentPage);
+        if (history) {
+            if ($rootScope.historyCurrentPage > 0) {
+                $rootScope.historyCurrentPage--;
+                $rootScope.historyList($rootScope.historyCurrentPage);
+                $rootScope.historyVersion = null;
+            }
+        } else {
+            if ($rootScope.currentPage > 0) {
+                $rootScope.currentPage--;
+                $rootScope.list($rootScope.currentPage);
+            }
         }
     };
 
-    $rootScope.nextPage = function() {
+    $rootScope.nextPage = function(history) {
         $messages.cleanAllMessages();
-        if ($rootScope.currentPage < $rootScope.pageSize - 1) {
-            $rootScope.currentPage++;
+        if (history) {
+            if ($rootScope.historyCurrentPage < $rootScope.historyPageSize - 1) {
+                $rootScope.historyCurrentPage++;
+                $rootScope.historyList($rootScope.historyCurrentPage + 1);
+                $rootScope.historyVersion = null;
+            }
+        } else {
+            if ($rootScope.currentPage < $rootScope.pageSize - 1) {
+                $rootScope.currentPage++;
+                $rootScope.list($rootScope.currentPage + 1);
+            }
+        }
+    };
+
+    $rootScope.setPage = function(history) {
+        if (history) {
+            $messages.cleanAllMessages();
+            $rootScope.historyCurrentPage = this.n;
+            $rootScope.historyList($rootScope.historyCurrentPage + 1);
+            $rootScope.historyVersion = null;
+        } else {
+            $messages.cleanAllMessages();
+            $rootScope.currentPage = this.n;
             $rootScope.list($rootScope.currentPage + 1);
         }
-    };
-
-    $rootScope.setPage = function() {
-        $messages.cleanAllMessages();
-        $rootScope.currentPage = this.n;
-        $rootScope.list($rootScope.currentPage + 1);
     };
 
     $rootScope.range = function(start, end) {
@@ -277,14 +306,34 @@ app.factory('PortalManager', function($rootScope, $http, $authenticator, $messag
     $rootScope.create = function() {
         $rootScope.item = $rootScope.newItem();
         $rootScope.showing = true;
+        clearHistory();
         $timeout(function() {
             $rootScope.focus();
         }, 100);
     };
-    
+
+    var clearHistory = function() {
+        $rootScope.history = [];
+        $rootScope.historyItems = [];
+        $rootScope.historyVersion = null;
+    };
+
     $rootScope.cancel = function() {
         $rootScope.item = $rootScope.newItem();
         $rootScope.showing = false;
+        clearHistory();
+    };
+
+    $rootScope.historyCopy = function() {
+        var valid = angular.isObject($rootScope.historyVersion);
+        $rootScope.form.historySelected.$setValidity('historyNotSelected', valid);
+        if (valid) {
+            var version = $rootScope.item.version;
+            $rootScope.item = $rootScope.historyVersion;
+            if (version) {
+                $rootScope.item.version = version;
+            }
+        }
     };
 
     $rootScope.list = function(page) {
@@ -297,10 +346,33 @@ app.factory('PortalManager', function($rootScope, $http, $authenticator, $messag
         });
     };
 
+    $rootScope.historyList = function(page) {
+        clearHistory();
+        if (!page) {
+            page = 1;
+        }
+        $http.get($rootScope.name + '-history?cid=' + $rootScope.item._id + '&page=' + page).success(function(data) {
+            $rootScope.history = data.items;
+            if ($rootScope.history.length !== 0) {
+                $rootScope.historyPageSize = data.pageCount;
+                angular.forEach($rootScope.history, function(value, key) {
+                    $rootScope.historyItems.push(JSON.parse(value.content));
+                });
+            }
+        });
+    };
+
     $rootScope.find = function(id) {
         $http.get('/' + $rootScope.name + '/' + id).success(function(data) {
             $rootScope.item = data.item;
             $rootScope.showing = !$rootScope.showing;
+            $rootScope.history = data.history.items;
+            if ($rootScope.history.length !== 0) {
+                $rootScope.historyPageSize = data.history.pageCount;
+                angular.forEach($rootScope.history, function(value, key) {
+                    $rootScope.historyItems.push(JSON.parse(value.content));
+                });
+            }
             $timeout(function() {
                 $rootScope.focus();
             }, 100);
@@ -327,14 +399,21 @@ app.factory('PortalManager', function($rootScope, $http, $authenticator, $messag
         });
     };
 
+    var addJSONValue = function(item, key, value) {
+        var json = JSON.stringify(item);
+        json = json.substring(0, json.length - 1) + ", \"" + key + "\":\"" + value + "\"}";
+        return JSON.parse(item);
+    };
+
     $rootScope.save = function(type) {
         if ($rootScope.form.$valid) {
             if (type) {
                 $rootScope.saveType = type;
             } else {
                 $messages.cleanAllMessages();
-                var update = ($rootScope.item._id) || false;
-                $http.post('/' + $rootScope.name, $rootScope.item).success(function() {
+                var user = $authenticator.userDetails();
+                $rootScope.item.user = user.id;
+                $http.post('/' + $rootScope.name, $rootScope.item).success(function(data) {
                     if ($rootScope.saveType.length > 0) {
                         if ($rootScope.saveType === 'NEW') {
                             $rootScope.create();

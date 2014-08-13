@@ -7,21 +7,43 @@ exports.index = function(req, res) {
 };
 
 exports.save = function(req, res) {
+    var History = mongoose.model('History');
     var Category = mongoose.model('Category');
     var item = new Category(req.body);
     if (req.body._id) {
-        Category.findByIdAndUpdate(item._id, {
-            $set : {
-                section : item.section,
-                code : item.code,
-                name : item.name,
-                description : item.description
-            }
-        }, function(error, content) {
+        Category.findOne({
+            _id : item._id
+        }, function(error, oldItem) {
             if (error) {
-                console.log(error);
                 res.send(500);
             }
+            var content = JSON.stringify(oldItem);
+            var history = new History({
+                type : "Category",
+                cid : oldItem.id,
+                content : content,
+                user : item.user
+            });
+            history.save(function(error, obj) {
+                if (error) {
+                    console.log(error);
+                    res.send(500);
+                }
+                Category.findByIdAndUpdate(item._id, {
+                    $set : {
+                        user : item.user,
+                        code : item.code,
+                        name : item.name,
+                        description : item.description,
+                        version : item.version + 1
+                    }
+                }, function(error, content) {
+                    if (error) {
+                        console.log(error);
+                        res.send(500);
+                    }
+                });
+            });
         });
     } else {
         item.save(function(error, obj) {
@@ -89,6 +111,21 @@ exports.find = function(req, res) {
 
         res.json({
             item : item
+        });
+    });
+};
+
+exports.history = function(req, res) {
+    var History = mongoose.model('History');
+    History.find({
+        type : 'Category'
+    }).exec(function(error, items) {
+        if (error) {
+            res.send(500);
+        }
+
+        res.json({
+            items : items
         });
     });
 };

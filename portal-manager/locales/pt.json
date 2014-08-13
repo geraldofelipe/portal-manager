@@ -65,5 +65,14 @@
 	"Unpublish": "Despublicar",
 	"Published": "Publicado",
 	"Unpublished": "Despublicado",
-	"Pending": "Pendente"
+	"Pending": "Pendente",
+	"Close": "Fechar",
+	"posted by": "postado por ",
+	"History": "Histórico",
+	"Version": "Versão",
+	"Select": "Selecione",
+	"Show main": "Show main",
+	"Create new": "Create new",
+	"Show items": "Show items",
+	"Select history version to restore": "Selecione uma versão do historico para restaurar"
 }
