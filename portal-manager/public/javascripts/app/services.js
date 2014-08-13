@@ -247,7 +247,6 @@ app.factory('PortalManager', function($rootScope, $http, $authenticator, $messag
 
     $rootScope.prevPage = function(history) {
         $messages.cleanAllMessages();
-<<<<<<< HEAD
         if (history) {
             if ($rootScope.historyCurrentPage > 0) {
                 $rootScope.historyCurrentPage--;
@@ -259,19 +258,6 @@ app.factory('PortalManager', function($rootScope, $http, $authenticator, $messag
                 $rootScope.currentPage--;
                 $rootScope.list($rootScope.currentPage);
             }
-=======
-        if ($rootScope.currentPage > 0) {
-            $rootScope.currentPage--;
-            $rootScope.list($rootScope.currentPage);
-        }
-    };
-
-    $rootScope.prevHistoryPage = function() {
-        $messages.cleanAllMessages();
-        if ($rootScope.historyCurrentPage > 0) {
-            $rootScope.historyCurrentPage--;
-            $rootScope.historyList($rootScope.historyCurrentPage);
->>>>>>> branch 'master' of https://github.com/lordfelipe/portal-manager.git
         }
     };
 
@@ -302,29 +288,6 @@ app.factory('PortalManager', function($rootScope, $http, $authenticator, $messag
             $rootScope.currentPage = this.n;
             $rootScope.list($rootScope.currentPage + 1);
         }
-<<<<<<< HEAD
-=======
-    };
-
-    $rootScope.nextHistoryPage = function() {
-        $messages.cleanAllMessages();
-        if ($rootScope.historyCurrentPage < $rootScope.historyPageSize - 1) {
-            $rootScope.historyCurrentPage++;
-            $rootScope.historyList($rootScope.historyCurrentPage + 1);
-        }
-    };
-
-    $rootScope.setPage = function() {
-        $messages.cleanAllMessages();
-        $rootScope.currentPage = this.n;
-        $rootScope.list($rootScope.currentPage + 1);
-    };
-
-    $rootScope.setHistoryPage = function() {
-        $messages.cleanAllMessages();
-        $rootScope.historyCurrentPage = this.n;
-        $rootScope.historyList($rootScope.historyCurrentPage + 1);
->>>>>>> branch 'master' of https://github.com/lordfelipe/portal-manager.git
     };
 
     $rootScope.range = function(start, end) {
@@ -352,10 +315,7 @@ app.factory('PortalManager', function($rootScope, $http, $authenticator, $messag
     var clearHistory = function() {
         $rootScope.history = [];
         $rootScope.historyItems = [];
-<<<<<<< HEAD
         $rootScope.historyVersion = null;
-=======
->>>>>>> branch 'master' of https://github.com/lordfelipe/portal-manager.git
     };
 
     $rootScope.cancel = function() {
@@ -453,11 +413,7 @@ app.factory('PortalManager', function($rootScope, $http, $authenticator, $messag
                 $messages.cleanAllMessages();
                 var user = $authenticator.userDetails();
                 $rootScope.item.user = user.id;
-<<<<<<< HEAD
                 $http.post('/' + $rootScope.name, $rootScope.item).success(function(data) {
-=======
-                $http.post('/' + $rootScope.name, $rootScope.item).success(function() {
->>>>>>> branch 'master' of https://github.com/lordfelipe/portal-manager.git
                     if ($rootScope.saveType.length > 0) {
                         if ($rootScope.saveType === 'NEW') {
                             $rootScope.create();
