@@ -35,25 +35,20 @@ app.controller('ContentController', function($scope, $http, $rootScope, $timeout
         },
         hotkeys : function() {
             $("input:not(.hotkey)").bind("keydown.insert", function(evt) {
-                $('#addButton').trigger("click");
-                return false;
-            }).bind("keydown.del", function(evt) {
-                var index = $(this).attr("index");
-                $('#removeButton' + index).trigger("click");
+                $('#newActionButton').trigger("click");
                 return false;
             }).addClass("hotkey");
         }
     });
 
     $scope.status = function(id, status) {
-        $rootScope.create();
         $messages.cleanAllMessages();
         $http.post('/content-status', {
             id : id,
             status : status
         }).success(function() {
             $messages.addSuccessMessage('Status alterado com com sucesso!');
-            setTimeout(function() {
+            $timeout(function() {
                 $rootScope.list();
                 $rootScope.focus();
             }, 100);

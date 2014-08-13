@@ -67,3 +67,16 @@ exports.logout = function(req, res) {
     delete req.session['user-id'];
     res.redirect('/');
 };
+
+exports.histories = function(req, res) {
+    var History = mongoose.model('History');
+    History.find({}).exec(function(error, items) {
+        if (error) {
+            res.send(500);
+        }
+
+        res.json({
+            items : items
+        });
+    });
+};

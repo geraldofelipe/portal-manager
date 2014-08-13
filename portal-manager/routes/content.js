@@ -7,23 +7,46 @@ exports.index = function(req, res) {
 };
 
 exports.save = function(req, res) {
+    var History = mongoose.model('History');
     var Content = mongoose.model('Content');
     var item = new Content(req.body);
     if (req.body._id) {
-        Content.findByIdAndUpdate(item._id, {
-            $set : {
-                section : item.section,
-                category : item.category,
-                title : item.title,
-                subtitle : item.subtitle,
-                initialText : item.initialText,
-                fullText : item.fullText
-            }
-        }, function(error, item) {
+        Content.findOne({
+            _id : item._id
+        }, function(error, oldItem) {
             if (error) {
-                console.log(error);
                 res.send(500);
             }
+            var content = JSON.stringify(oldItem);
+            var history = new History({
+                type : "Content",
+                cid : oldItem.id,
+                content : content,
+                user : item.user
+            });
+            history.save(function(error, obj) {
+                if (error) {
+                    console.log(error);
+                    res.send(500);
+                }
+                Content.findByIdAndUpdate(item._id, {
+                    $set : {
+                        user : item.user,
+                        section : item.section,
+                        category : item.category,
+                        title : item.title,
+                        subtitle : item.subtitle,
+                        initialText : item.initialText,
+                        fullText : item.fullText,
+                        version : item.version + 1
+                    }
+                }, function(error, item) {
+                    if (error) {
+                        console.log(error);
+                        res.send(500);
+                    }
+                });
+            });
         });
     } else {
         item.save(function(error, item) {
@@ -68,7 +91,7 @@ exports.remove = function(req, res) {
 
 exports.list = function(req, res) {
     var Content = mongoose.model('Content');
-    Content.find({}).populate([ 'section', 'category' ]).exec(function(error, items) {
+    Content.find({}).populate([ 'section', 'category', 'user' ]).exec(function(error, items) {
         if (error) {
             res.send(500);
         }
@@ -86,7 +109,7 @@ exports.page = function(req, res) {
     if (status && status.length > 0) {
         filter = {
             status : status
-        }
+        };
     }
     var Content = mongoose.model('Content');
     Content.paginate(filter, page, 5, function(error, pageCount, items, itemCount) {
@@ -99,7 +122,7 @@ exports.page = function(req, res) {
             });
         }
     }, {
-        populate : [ 'category', 'section' ]
+        populate : [ 'category', 'section', 'user' ]
     });
 };
 
@@ -114,6 +137,21 @@ exports.find = function(req, res) {
 
         res.json({
             item : item
+        });
+    });
+};
+
+exports.history = function(req, res) {
+    var History = mongoose.model('History');
+    History.find({
+        type : 'Content'
+    }).exec(function(error, items) {
+        if (error) {
+            res.send(500);
+        }
+
+        res.json({
+            items : items
         });
     });
 };

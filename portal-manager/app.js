@@ -116,6 +116,7 @@ app.del('/section/:id', checkAuth, section.remove);
 app.post('/section', checkAuth, section.save);
 app.get('/sections', checkAuth, section.list);
 app.get('/page-sections', checkAuth, section.page);
+app.get('/section-history', checkAuth, section.history);
 // CATEGORY
 app.get('/category', checkAuth, category.index);
 app.get('/category/:id', checkAuth, category.find);
@@ -123,6 +124,7 @@ app.del('/category/:id', checkAuth, category.remove);
 app.post('/category', checkAuth, category.save);
 app.get('/categories', checkAuth, category.list);
 app.get('/page-categories', checkAuth, category.page);
+app.get('/category-history', checkAuth, category.history);
 // CONTENT
 app.get('/content', checkAuth, content.index);
 app.get('/content/:id', checkAuth, content.find);
@@ -131,6 +133,7 @@ app.post('/content', checkAuth, content.save);
 app.post('/content-status', checkAuth, content.status);
 app.get('/contents', checkAuth, content.list);
 app.get('/page-contents', checkAuth, content.page);
+app.get('/content-history', checkAuth, content.history);
 // USER
 app.get('/user', checkAuth, user.index);
 app.get('/user/:id', checkAuth, user.find);
@@ -143,6 +146,8 @@ app.get('/page-users', checkAuth, user.page);
 app.get('/user-logged', checkAuth, user.logged);
 app.get('/user-password', checkAuth, user.password);
 app.post('/user-password', checkAuth, user.changePassword);
+//HISTORY
+app.get('/histories', routes.histories);
 // LOGIN
 app.get('/login', routes.login);
 app.post('/login', routes.doLogin);

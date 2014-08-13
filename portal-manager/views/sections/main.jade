@@ -1,5 +1,5 @@
 form(name="mainForm", role="form", ng-submit='save()', submitted="submitted", novalidate shake-that)
- div(class="panel panel-default main-panel", ng-class="{'box-shadow':showing}")
+ div(class="panel panel-default main-panel", ng-class="{'box-shadow':$root.showing}")
   div(class="panel-heading")=__('Section')
    include ../includes/main-actions
   div(class="panel-body slide-down", ng-show="$root.showing")
@@ -10,3 +10,5 @@ form(name="mainForm", role="form", ng-submit='save()', submitted="submitted", no
        input(type="text", class="form-control", name="name", id="sectionName", placeholder=__('Name'), ng-model="item.name" capitalize required)
       div(class="form-group" ng-class="{'has-error': mainForm.description.$invalid && submitted}")
        textarea(class="form-control", name="description", id="sectionDescription", placeholder=__('Description'), ng-model="item.description" capitalize-first required)
+      
+      include history

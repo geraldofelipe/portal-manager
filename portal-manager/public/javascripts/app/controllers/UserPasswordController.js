@@ -8,11 +8,7 @@ app.controller('UserPasswordController', function($scope, $http, $rootScope, $ti
         },
         hotkeys : function() {
             $("input:not(.hotkey)").bind("keydown.insert", function(evt) {
-                $('#addButton').trigger("click");
-                return false;
-            }).bind("keydown.del", function(evt) {
-                var index = $(this).attr("index");
-                $('#removeButton' + index).trigger("click");
+                $('#newActionButton').trigger("click");
                 return false;
             }).addClass("hotkey");
         }

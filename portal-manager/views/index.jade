@@ -3,7 +3,9 @@ extends layouts/manager
 block content
   div(class="container", ng-controller="MainController")
     div(ng-repeat='content in contents | orderBy:predicate:reverse')
-      ii {{content.section.name}}
+      ii {{content.section.name}} 
+      small=__('posted by')
+       |{{content.user.name}}
       br
       span {{content.category.name}}
       br

@@ -6,6 +6,7 @@ app.controller('SectionController', function($scope, $http, $rootScope, $timeout
         listUrl : '/sections',
         pageUrl : '/page-sections',
         predicate : 'name',
+        historyPredicate : 'version',
         newItem : function() {
             return {
                 code : '',
@@ -18,11 +19,7 @@ app.controller('SectionController', function($scope, $http, $rootScope, $timeout
         },
         hotkeys : function() {
             $("input:not(.hotkey)").bind("keydown.insert", function(evt) {
-                $('#addButton').trigger("click");
-                return false;
-            }).bind("keydown.del", function(evt) {
-                var index = $(this).attr("index");
-                $('#removeButton' + index).trigger("click");
+                $('#newActionButton').trigger("click");
                 return false;
             }).addClass("hotkey");
         }
