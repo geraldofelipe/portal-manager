@@ -1,5 +1,5 @@
 var app = angular.module('app', [ 'app.directives', 'app.services', 'messages', 'angular-loading-bar', 'ngAnimate', 'textAngular' ]);
-app.controller('ContentController', function($scope, $http, $rootScope, $timeout, $messages, PortalManager) {
+app.controller('ContentController', function($scope, $http, $rootScope, $timeout, $messages, AppManager) {
 
     $scope.sections = [];
     $scope.categories = [];
@@ -16,7 +16,7 @@ app.controller('ContentController', function($scope, $http, $rootScope, $timeout
         });
     };
 
-    var manager = new PortalManager({
+    var manager = new AppManager({
         name : 'content',
         listUrl : '/contents',
         pageUrl : '/page-contents',

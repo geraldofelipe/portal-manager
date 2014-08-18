@@ -1,5 +1,5 @@
 var app = angular.module('app', [ 'messages', 'dialogs', 'authenticator', 'angular-loading-bar', 'ngAnimate' ]);
-app.controller('MainController', function($scope, $http, $rootScope, $timeout, $messages, $authenticator) {
+app.controller('DashboardController', function($scope, $http, $rootScope, $timeout, $messages, $authenticator) {
 
     $scope.sections = [];
     $scope.categories = [];

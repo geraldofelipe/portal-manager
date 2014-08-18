@@ -6,7 +6,7 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 
 exports.index = function(req, res, view) {
-    res.render((view && view.length > 0) ? view : 'index', {});
+    res.render((view && view.length > 0) ? view : 'dashboard', {});
 };
 
 exports.settings = function(req, res) {

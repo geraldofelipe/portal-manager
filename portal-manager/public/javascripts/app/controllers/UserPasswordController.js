@@ -1,7 +1,7 @@
 var app = angular.module('app', [ 'app.directives', 'app.services', 'messages', 'angular-loading-bar', 'ngAnimate' ]);
-app.controller('UserPasswordController', function($scope, $http, $rootScope, $timeout, $controller, $messages, PortalManager) {
+app.controller('UserPasswordController', function($scope, $http, $rootScope, $timeout, $controller, $messages, AppManager) {
 
-    var manager = new PortalManager({
+    var manager = new AppManager({
         name : 'user-password',
         focus : function() {
             $("#userPassword").focus();

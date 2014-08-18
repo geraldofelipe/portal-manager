@@ -1,7 +1,7 @@
 var app = angular.module('app', [ 'app.directives', 'app.services', 'messages', 'authenticator', 'angular-loading-bar', 'ngAnimate' ]);
-app.controller('HistoryController', function($scope, $http, $rootScope, $timeout, $controller, $messages, PortalManager) {
+app.controller('HistoryController', function($scope, $http, $rootScope, $timeout, $controller, $messages, AppManager) {
 
-    var manager = new PortalManager({
+    var manager = new AppManager({
         name : 'History',
         listUrl : '/histories',
         pageUrl : '/page-histories',

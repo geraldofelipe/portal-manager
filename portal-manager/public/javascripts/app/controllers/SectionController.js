@@ -1,7 +1,7 @@
 var app = angular.module('app', [ 'app.services', 'app.directives', 'messages', 'angular-loading-bar', 'ngAnimate' ]);
-app.controller('SectionController', function($scope, $http, $rootScope, $timeout, $controller, $messages, PortalManager) {
+app.controller('SectionController', function($scope, $http, $rootScope, $timeout, $controller, $messages, AppManager) {
 
-    var manager = new PortalManager({
+    var manager = new AppManager({
         name : 'section',
         listUrl : '/sections',
         pageUrl : '/page-sections',

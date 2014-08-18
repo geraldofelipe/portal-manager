@@ -1,7 +1,7 @@
 extends layouts/manager
 
 block content
-  div(class="container", ng-controller="MainController")
+  div(class="container", ng-controller="DashboardController")
     div(ng-repeat='content in contents | orderBy:predicate:reverse')
       ii {{content.section.name}} 
       small=__('posted by')
@@ -54,4 +54,4 @@ block content
               td {{category.code}}
               td {{category.name}}
               td {{category.description}}
-  script(src='/javascripts/app/controllers/MainController.js', type='text/javascript')
+  script(src='/javascripts/app/controllers/DashboardController.js', type='text/javascript')

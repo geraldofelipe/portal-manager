@@ -1,7 +1,7 @@
 var app = angular.module('app', [ 'app.directives', 'app.services', 'messages', 'angular-loading-bar', 'ngAnimate' ]);
-app.controller('UserController', function($scope, $http, $rootScope, $timeout, $messages, $controller, PortalManager) {
+app.controller('UserController', function($scope, $http, $rootScope, $timeout, $messages, $controller, AppManager) {
 
-    var manager = new PortalManager({
+    var manager = new AppManager({
         name : 'user',
         listUrl : '/users',
         pageUrl : '/page-users',

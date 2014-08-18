@@ -24,7 +24,6 @@
     "passport": "*",
     "passport-local": "*",
     "async": "*",
-    "email-templates": "*",
     "nodemailer": "*"
   }
 }

@@ -196,7 +196,7 @@ angular
 
 var app = angular.module('app.services', [ 'ui.bootstrap', 'dialogs', 'messages', 'authenticator' ]);
 
-app.factory('PortalManager', function($rootScope, $http, $authenticator, $messages, $dialogs, $timeout) {
+app.factory('AppManager', function($rootScope, $http, $authenticator, $messages, $dialogs, $timeout) {
 
     $rootScope.showing = false;
     $rootScope.form = {};
