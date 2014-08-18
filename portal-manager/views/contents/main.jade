@@ -1,9 +1,9 @@
 form(name="mainForm", role="form", ng-submit='save()', submitted="submitted", novalidate shake-that)
  div(class="panel panel-default main-panel", ng-class="{'box-shadow':$root.showing}")
   div(class="panel-heading")=__('Content')
-   include ../includes/main-actions
+   include ../includes/main/actions
   div(class="panel-body slide-down", ng-show="$root.showing")
-      include ../includes/actions
+      include ../includes/actions/default
       label(for="contentSection")=__('Section')
       div(class="form-group" ng-class="{'has-error': mainForm.section.$invalid && submitted}")
        select(class="form-control", name="section", id="contentSection", ng-model="item.section" required autofocus)

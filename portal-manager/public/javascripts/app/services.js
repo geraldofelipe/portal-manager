@@ -414,6 +414,7 @@ app.factory('PortalManager', function($rootScope, $http, $authenticator, $messag
                 var user = $authenticator.userDetails();
                 $rootScope.item.user = user.id;
                 $http.post('/' + $rootScope.name, $rootScope.item).success(function(data) {
+                    $rootScope.item = data.item;
                     if ($rootScope.saveType.length > 0) {
                         if ($rootScope.saveType === 'NEW') {
                             $rootScope.create();

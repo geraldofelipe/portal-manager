@@ -6,14 +6,25 @@
     "start": "node app.js"
   },
   "dependencies": {
-    "express": "3.4.4",
-    "express-paginate" : "*",
+    "express": "4.0.0",
+    "compression": "*",
+    "body-parser": "*",
+    "cookie-parser": "*",
+    "cookie-session": "*",
+    "errorhandler": "*",
+    "method-override": "*",
+    "morgan": "*",
+    "serve-favicon": "*",
+    "express-paginate": "*",
+    "express-session": "*",
 	"jade": "*",
     "mongoose": "*",
-    "mongoose-paginate" : "*",
-    "i18n" : "*",
-    "passport" : "*",
-    "passport-local" : "*",
-    "async" : "*"
+    "mongoose-paginate": "*",
+    "i18n": "*",
+    "passport": "*",
+    "passport-local": "*",
+    "async": "*",
+    "email-templates": "*",
+    "nodemailer": "*"
   }
 }

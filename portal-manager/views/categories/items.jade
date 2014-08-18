@@ -1,15 +1,15 @@
 div(class="panel panel-default items-panel", ng-class="{'box-shadow':!$root.showing}")
   div(class="panel-heading")=__('Category List')
-   include ../includes/items-actions
+   include ../includes/items/actions
   div(class="panel-body slide-down", ng-hide="$root.showing")
       table(class="table table-striped table-bordered table-hover")
         thead
-         include ../includes/items-search
+         include ../includes/items/search
          tr
           th(style="width: 80%")=__('Name')
           th=__('Actions')
         tbody
-         include ../includes/select-empty
+         include ../includes/items/empty
          tr(ng-repeat='selectItem in items | filter:search | orderBy:predicate:reverse' class="click slide-down")
           td(ng-click="click = !click; detail = selectItem._id") {{selectItem.name}}
            table(style="width: 100%", ng-show="click && detail == selectItem._id", class="scale-fade")
@@ -21,5 +21,5 @@ div(class="panel panel-default items-panel", ng-class="{'box-shadow':!$root.show
              td {{selectItem.description}}
           td
             div(class="btn-group")
-                include ../includes/item-actions
-      include ../includes/pagination
+                include ../includes/actions/item
+      include ../includes/items/paginate

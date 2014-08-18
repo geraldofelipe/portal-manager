@@ -1,9 +1,9 @@
 form(name="mainForm", role="form", ng-submit='save()', submitted="submitted", novalidate shake-that)
  div(class="panel panel-default main-panel", ng-class="{'box-shadow':$root.showing}")
   div(class="panel-heading")=__('User')
-   include ../includes/main-actions
+   include ../includes/main/actions
   div(class="panel-body slide-down", ng-show="$root.showing")
-      include ../includes/actions
+      include ../includes/actions/default
       div(class="form-group" ng-class="{'has-error': mainForm.email.$invalid && submitted}")
        input(type="email", class="form-control", name="email", id="userEmail", placeholder=__('Email'), ng-model="item.email", ng-readonly="item._id" required)
       div(class="form-group" ng-class="{'has-error': mainForm.name.$invalid && submitted}")

@@ -1,9 +1,9 @@
 form(name="mainForm", role="form", ng-submit='save()', submitted="submitted", novalidate shake-that)
  div(class="panel panel-default", ng-class="{'box-shadow':$root.showing}")
   div(class="panel-heading")=__('Category')
-   include ../includes/main-actions
+   include ../includes/main/actions
   div(class="panel-body slide-down", ng-show="$root.showing")
-      include ../includes/actions
+      include ../includes/actions/default
       input(type="text", class="form-control", name="code", id="categoryCode", placeholder=__('Code'), ng-model="item.code" uppercase required autofocus)
       input(type="text", class="form-control", name="name", id="categoryName", placeholder=__('Name'), ng-model="item.name" capitalize required)
       textarea(class="form-control", name="description", id="categoryDescription", placeholder=__('Description'), ng-model="item.description" capitalize-first required)
