@@ -16,9 +16,11 @@ div(class="panel panel-default items-panel", ng-class="{'box-shadow':!$root.show
             tr
              th(style="width: 20%")=__('Code')
              th(style="width: 80%")=__('Description')
+             th(style="width: 80%")=__('Modified')
             tr
              td {{selectItem.code}}
              td {{selectItem.description}}
+             td {{selectItem.modified|date:'dd/MM/yyyy'}}
           td
             div(class="btn-group")
                 include ../includes/actions/item
